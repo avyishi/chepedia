@@ -3,13 +3,20 @@ class WikisController < ApplicationController
     @wikis = Wiki.all
   end
 
+  def show
+    @wiki = Wiki.friendly.find(params[:id])
+    if request.path != wiki_path(@wiki)
+      redirect_to @wiki, status: :moved_permanently
+      end
+  end
+
   def new
     @wiki = Wiki.new
   end
 
   def create
     @wiki = current_user.wikis.build(wiki_params)
-    if @wiki.save
+      if @wiki.save
       flash[:notice] = "Awesome, wiki was created successfully!"
       redirect_to @wiki
     else
@@ -32,5 +39,10 @@ class WikisController < ApplicationController
     end
   end
 
+  private 
 
+  def wiki_params
+    params.require(:wiki).permit(:name, :private)
+  end
 end
+
