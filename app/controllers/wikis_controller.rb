@@ -1,10 +1,16 @@
 class WikisController < ApplicationController
   def index
     @wikis = Wiki.all
+    @wikis = current_user.wikis.paginate(page: params[:page], per_page: 10)
+
+
+
   end
 
   def show
     @wiki = Wiki.friendly.find(params[:id])
+    @wikis = current_user.wikis.paginate(page: params[:page], per_page: 10)
+
     if request.path != wiki_path(@wiki)
       redirect_to @wiki, status: :moved_permanently
       end
@@ -26,10 +32,8 @@ class WikisController < ApplicationController
   end
 
   def destroy
-
     @wiki = Wiki.friendly.find(params[:id])
     name = @wiki.name
-
       if @wiki.destroy
        flash[:notice] = "\"#{name}\" was deleted successfully."
        redirect_to wikis_path
