@@ -5,6 +5,7 @@
   <tr>
     <td><% @wikis.each do |wiki| %></td>
   </tr>
+
   <tr>
     <td>
       <div class="media">
@@ -16,11 +17,20 @@
         created <%= time_ago_in_words(wiki.created_at) %> ago media-body<%= wiki.user.name %>
       </small>
     </td>
-  </tr>
+  
+  
+    <td>
+    
+    
+    </td>
+    </tr>
       </div>
       </div>
       <% end %>
 </table>
+
+
+
 
 
 
